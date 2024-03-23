@@ -1,37 +1,34 @@
 import requests
 import json
 
-from requests.api import get
 
-username = "admin"
-password = "302562020"
+username = "admin"  # 账号
+password = "302562020"  # 密码
+
+session = requests.Session()
 
 
 def login():
-    url = "http://chirsemby.top:4396/reader3/login"
+    url = "http://127.0.0.1:4396/reader3/login"  # reader地址
     data = {"username": username, "password": password, "isLogin": True}
     headers = {
         "Content-Type": "application/json",
     }
-    re = requests.post(url, data=json.dumps(data), headers=headers)
+    re = session.post(url, data=json.dumps(data), headers=headers)
     print(json.dumps(re.json(), sort_keys=True, indent=4))
 
 
-login()
+def get_bs():
+    bs_url = "https://jihulab.com/aoaostar/legado/-/raw/release/cache/71e56d4f1d8f1bff61fdd3582ef7513600a9e108.json"  # 书源地址
+    return requests.get(bs_url).json()
 
 
-def get_booksource():
-    booksource_url = "https://jihulab.com/aoaostar/legado/-/raw/release/cache/8274870a1493d7c4e51c41682a8d1e9500457826.json"
-    booksource = requests.get(booksource_url)
-    return booksource
-
-
-# @get_booksource
-def upload_booksource():
-    url = "http://127.0.0.1:1234/reader3/saveBookSources"
+def send_bs():
+    reader_addr = "http://127.0.0.1:4396/reader3/saveBookSources/"  # reader地址
+    data = get_bs()
     headers = {"Content-Type": "application/json"}
-    data = get_booksource()
-    re = requests.post(url, data=data, headers=headers)
+    print(session.post(url=reader_addr, headers=headers, json=data).json())
 
 
-upload_booksource()
+login()
+send_bs()
