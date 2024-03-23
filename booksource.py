@@ -3,7 +3,7 @@ import json
 
 
 username = "admin"  # 账号
-password = "302562020"  # 密码
+password = "admin"  # 密码
 
 session = requests.Session()
 
